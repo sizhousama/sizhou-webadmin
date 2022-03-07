@@ -10,7 +10,7 @@ export interface TagParamsType {
   status?:number|string;
 }
 export async function tagList(params: TagParamsType) {
-  return request('/admin/tags', {
+  return request('/adminTag/list', {
     method: 'GET',
     params,
   });

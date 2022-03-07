@@ -6,23 +6,15 @@
  */
 import request from '@/utils/request'
 
-export interface ArticleParamsType {
-  page: number|undefined;
-  size: number|undefined;
-  orderType?:string;
-  category?:number;
-  tag?:number;
-  status?:number|string;
-}
-export async function articleList(params: ArticleParamsType) {
+export async function articleList(params: any) {
   return request('/articles', {
     method: 'GET',
     params,
   });
 }
 
-export async function DraftList(params: ArticleParamsType) {
-  return request('/admin/drafts', {
+export async function DraftList(params: any) {
+  return request('/adminDraft/list', {
     method: 'GET',
     params,
   });

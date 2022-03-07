@@ -10,7 +10,7 @@ export interface CateParamsType {
   status?:number|string;
 }
 export async function categoryList(params: CateParamsType) {
-  return request('/admin/cates', {
+  return request('/adminCate/list', {
     method: 'GET',
     params,
   });
