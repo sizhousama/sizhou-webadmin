@@ -1,14 +1,13 @@
 import {
   LockOutlined,
-  MailOutlined,
   MobileOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import logo from '@/assets/logo.png';
 import { message, Tabs } from 'antd';
 import {setToken} from '@/utils/utils'
-import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
+import React, { useState } from 'react';
+import ProForm, { ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
 import { useIntl, Link, history, FormattedMessage } from 'umi';
 import Footer from '@/components/Footer';
 import { LoginAdmin, LoginParamsType } from '@/services/login';
@@ -75,7 +74,7 @@ const Login: React.FC<{}> = () => {
                 },
               },
             }}
-            onFinish={async (values) => {
+            onFinish={async (values:any) => {
               handleSubmit(values);
             }}
           >
@@ -171,42 +170,6 @@ const Login: React.FC<{}> = () => {
                     },
                   ]}
                 />
-                {/* <ProFormCaptcha
-                  fieldProps={{
-                    size: 'large',
-                    prefix: <MailOutlined className={styles.prefixIcon} />,
-                  }}
-                  captchaProps={{
-                    size: 'large',
-                  }}
-                  placeholder={intl.formatMessage({
-                    id: 'pages.login.captcha.placeholder',
-                    defaultMessage: '请输入验证码',
-                  })}
-                  captchaTextRender={(timing, count) =>
-                    timing
-                      ? `${count} ${intl.formatMessage({
-                          id: 'pages.getCaptchaSecondText',
-                          defaultMessage: '获取验证码',
-                        })}`
-                      : intl.formatMessage({
-                          id: 'pages.login.phoneLogin.getVerificationCode',
-                          defaultMessage: '获取验证码',
-                        })
-                  }
-                  name="captcha"
-                  rules={[
-                    {
-                      required: true,
-                      message: (
-                        <FormattedMessage
-                          id="pages.login.captcha.required"
-                          defaultMessage="请输入验证码！"
-                        />
-                      ),
-                    },
-                  ]}
-                /> */}
               </>
             )}
             <div

@@ -1,105 +1,84 @@
 import React ,{useRef} from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { PlusOutlined, EditOutlined,DeleteOutlined } from '@ant-design/icons';
-import { Button, Tag, Space } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Tag, Space, Popconfirm, message, Image } from 'antd';
 import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
-import {articleList} from '@/services/article'
-import styles from './index.less';
-interface Article {
-  cover: string;
-  id: number;
-  createdAt: string;
-  title: string;
-  category: {
-    name: string;
-    id: number;
-  };
-  tag: {
-    name: string;
-    id: number;
-  };
-  status: number;
-}
-const columns: ProColumns<Article>[] = [
-  {
-    dataIndex: 'index',
-    valueType: 'indexBorder',
-    width: 48,
-  },
-  {
-    title: '标题',
-    dataIndex: 'title',
-    copyable: true,
-    ellipsis: true,
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: '此项为必填项',
-        },
-      ],
-    },
-    width: '25%',
-    search: false,
-  },
-  {
-    title: '类别',
-    dataIndex: 'category',
-    render: (_, row) => (
-      <Space key={row.category.id}>{row.category.name}</Space>
-    ),
-  },
-  {
-    title: '标签',
-    dataIndex: 'tag',
-    render: (_, row) => (
-      <Tag key={row.tag.name}>
-        {row.tag.name}
-      </Tag>
-    ),
-  },
-  {
-    title: '创建时间',
-    key: 'since',
-    dataIndex: 'createdAt',
-    valueType: 'dateTime',
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    initialValue: 1,
-    filters: true,
-    valueEnum: {
-      1: {
-        text: '已发布',
-        status: 1,
-      },
-      2: {
-        text: '已删除',
-        status: 2,
-      },
-      3: {
-        text: '待审核',
-        status: 3,
-      },
-    },
-  },
-  {
-    title: '操作',
-    valueType: 'option',
-    render: (_, row) => (
-      <Space key={row.id}>
-        <EditOutlined />
-        <DeleteOutlined />
-      </Space>
-    )
-  },
-];
+import { articleList, articleDelete } from '@/services/article'
+
+import Create from './components/create'
+
 const ArticleAdmin: React.FC<{}> = () => {
   const actionRef = useRef<ActionType>();
+  const createRef = useRef();
+
+  const columns: ProColumns<any>[] = [
+    {
+      title: '标题',
+      dataIndex: 'title',
+      copyable: true,
+      ellipsis: true,
+      width: '200px'
+    },
+    {
+      title: '封面',
+      dataIndex: 'cover',
+      render: (_, row) => (
+        <Image key={row.id} src={row.cover} style={{ width: '200px' }} />
+      ),
+    },
+    {
+      title: '类别',
+      dataIndex: 'category',
+      render: (_, row) => (
+        <Space key={row.category.id}>{row.category.name}</Space>
+      ),
+    },
+    {
+      title: '标签',
+      dataIndex: 'tag',
+      render: (_, row) => (
+        <Tag key={row.tag.name}>
+          {row.tag.name}
+        </Tag>
+      )
+    },
+    {
+      title: '创建时间',
+      key: 'since',
+      dataIndex: 'createdAt',
+      valueType: 'dateTime',
+    },
+    {
+      title: '操作',
+      valueType: 'option',
+      width: '100px',
+      render: (text, record) => [
+        <EditOutlined
+          key="editable"
+          onClick={() => {
+            (createRef.current as any).open('edit', record.id)
+          }}
+        />,
+        <Popconfirm
+          key="delete"
+          title="是否确定删除？"
+          onConfirm={async ()=> {
+            await articleDelete({ id: record.id })
+            message.success('删除成功！')
+            actionRef.current?.reload()
+          }}
+          okText="是"
+          cancelText="否"
+        >
+          <DeleteOutlined />
+        </Popconfirm>
+      ]
+    }
+  ];
+
   return (
     <PageContainer breadcrumb={undefined}>
-    <ProTable<Article>
+    <ProTable<any>
       columns={columns}
       actionRef={actionRef}
       request={async (params = {}) =>
@@ -117,12 +96,13 @@ const ArticleAdmin: React.FC<{}> = () => {
       search={false}
       dateFormatter="string"
       headerTitle="文章列表"
-      toolBarRender={() => [
-        <Button key="button" icon={<PlusOutlined />} type="primary">
-          新建
-        </Button>
-      ]}
     />
+      <Create
+        cRef={createRef}
+        reload={() => {
+          actionRef.current?.reload()
+        }}
+      />
     </PageContainer>
   );
 };

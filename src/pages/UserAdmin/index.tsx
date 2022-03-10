@@ -6,18 +6,12 @@ import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import { userList, userDelete} from '@/services/user'
 
 import Create from './components/create'
-import './index.less';
 
 const UserAdmin: React.FC<any> = () => {
   const actionRef = useRef<ActionType>();
   const createRef = useRef();
 
   const columns: ProColumns<any>[] = [
-    {
-      dataIndex: 'index',
-      valueType: 'indexBorder',
-      width: 80,
-    },
     {
       title: 'Id',
       dataIndex: 'id',
@@ -50,6 +44,18 @@ const UserAdmin: React.FC<any> = () => {
       width: '300px'
     },
     {
+      title: '角色',
+      dataIndex: 'account_type',
+      valueEnum: {
+        'ADMIN': {
+          text: '管理员'
+        },
+        'GENERAL': {
+          text: '普通成员'
+        },
+      },
+    },
+    {
       title: '创建时间',
       key: 'since',
       dataIndex: 'createdAt',
@@ -58,6 +64,7 @@ const UserAdmin: React.FC<any> = () => {
     {
       title: '操作',
       valueType: 'option',
+      width: '100px',
       render: (text, record) => [
         <EditOutlined
           key="editable"

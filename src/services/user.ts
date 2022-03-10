@@ -15,9 +15,8 @@ export async function userList(params: any) {
 }
 
 export async function userGet(params: any) {
-  return request('/adminUser/get', {
-    method: 'GET',
-    params,
+  return request(`/adminUser/get/${params.id}`, {
+    method: 'GET'
   });
 }
 
@@ -36,8 +35,7 @@ export async function userAdd(data: any) {
 }
 
 export async function userDelete(data: any) {
-  return request('/adminUser/delete', {
-    method: 'POST',
-    data,
+  return request(`/adminUser/delete/${data.id}`, {
+    method: 'DELETE'
   });
 }

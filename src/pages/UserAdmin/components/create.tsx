@@ -1,5 +1,5 @@
 import React ,{useState, useImperativeHandle, useRef} from 'react';
-import ProForm, { ProFormText, ProFormUploadButton  } from '@ant-design/pro-form';
+import ProForm, { ProFormSelect, ProFormText, ProFormUploadButton  } from '@ant-design/pro-form';
 import { Modal, message  } from 'antd';
 import {userGet, userAdd, userUpdate} from '@/services/user'
 import {baseUrl} from '@/utils/baseUrl'
@@ -35,7 +35,8 @@ const CreateUser: React.FC<any> = (props:any) => {
           avatar: '',
           username: '',
           email: '',
-          password: ''
+          password: '',
+          account_type: 'GENERAL'
         }}
         submitter={{
           resetButtonProps: {
@@ -60,7 +61,7 @@ const CreateUser: React.FC<any> = (props:any) => {
             delete formData.avatarList
             const fun = type === 'create' ? userAdd(formData) : userUpdate({...formData, id});
             await fun;
-            message.success('更新成功！')
+            message.success(`${type === 'create' ? '新增' : '编辑'}成功！`)
             close()
             props.reload()
           })
@@ -69,8 +70,8 @@ const CreateUser: React.FC<any> = (props:any) => {
         request={async () => {
           if(type === 'edit'){
             const { data } = await userGet({id})
-            const { avatar, username, email, password} = data
-            return {avatar, avatarList: [{url:avatar}], username, email, password}
+            const { avatar, username, email, password, account_type} = data
+            return {avatar, avatarList: [{url:avatar}], username, email, password, account_type}
           }
           return {
             id: '',
@@ -78,7 +79,8 @@ const CreateUser: React.FC<any> = (props:any) => {
             avatarList: [],
             username: '',
             email: '',
-            password: ''
+            password: '',
+            account_type: 'GENERAL'
           }
         }}
       >
@@ -96,6 +98,15 @@ const CreateUser: React.FC<any> = (props:any) => {
         <ProFormText width="md" name="username" label="用户名" placeholder="请输入用户名" />
         <ProFormText width="md" name="email" label="邮箱" placeholder="请输入邮箱" rules={[{required: true, message: '请输入邮箱'}]} />
         <ProFormText.Password width="md" name="password" label="密码" placeholder="请输入密码" rules={[{required: true, message: '请输入密码'}]} disabled={ type==='edit' } />
+        <ProFormSelect
+          name="account_type"
+          label="角色"
+          valueEnum={{
+            'ADMIN': '管理员',
+            'GENERAL': '普通成员',
+          }}
+          rules={[{ required: true, message: '请选择角色!' }]}
+        />
       </ProForm>
     </Modal>
   );

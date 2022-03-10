@@ -89,12 +89,14 @@ request.interceptors.response.use(async (response: any): Promise<any> => {
     const { status, msg } = res
     if (status !== 1) {
       message.error(msg)
+      return Promise.reject(msg)
       // if (code && code === 401) {
       //   pageLogin()
       //   window.location.reload()
       // }
     }
     obj = res
+    return Promise.resolve(res)
   })
   return obj
 });

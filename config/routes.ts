@@ -18,43 +18,32 @@ export default [
   },
   {
     path: '/home',
-    name: 'home',
+    name: '首页',
     icon: 'home',
     component: './Home',
   },
   {
     path: '/articleAdmin',
-    name: 'article-admin',
+    name: '文章管理',
     icon: 'profile',
     access: 'canAdmin',
-    routes: [
-      {
-        path: '/articleAdmin/article',
-        name: 'article',
-        component: './ArticleAdmin',
-      },
-      {
-        path: '/articleAdmin/draft',
-        name: 'draft',
-        component: './DraftAdmin',
-      }
-    ],
+    component: './ArticleAdmin'
   },
   {
     path: '/category',
-    name: 'category-admin',
+    name: '类别管理',
     icon: 'bars',
     component: './CategoryAdmin',
   },
   {
     path: '/tag',
-    name: 'tag-admin',
+    name: '标签管理',
     icon: 'tag',
     component: './TagAdmin',
   },
   {
     path: '/useradmin',
-    name: 'user-admin',
+    name: '用户管理',
     icon: 'user',
     component: './UserAdmin',
   },

@@ -17,7 +17,7 @@ const Settings: LayoutSettings & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'sizhou-admin',
+  title: 'sizhou技术网管理后台',
   pwa: false,
   logo:'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1089436324,3910665089&fm=26&gp=0.jpg',
   iconfontUrl: '',

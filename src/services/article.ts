@@ -7,16 +7,27 @@
 import request from '@/utils/request'
 
 export async function articleList(params: any) {
-  return request('/articles', {
+  return request('/adminArticle/list', {
     method: 'GET',
     params,
   });
 }
 
-export async function DraftList(params: any) {
-  return request('/adminDraft/list', {
-    method: 'GET',
-    params,
+export async function articleDelete(data: any) {
+  return request(`/adminArticle/delete/${data.id}`, {
+    method: 'DELETE'
   });
 }
 
+export async function articleUpdate(data: any) {
+  return request('/adminArticle/update', {
+    method: 'POST',
+    data,
+  });
+}
+
+export async function articleGet(params: any) {
+  return request(`/adminArticle/get/${params.id}`, {
+    method: 'GET'
+  });
+}
