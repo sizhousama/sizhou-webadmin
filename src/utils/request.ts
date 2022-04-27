@@ -42,18 +42,12 @@ const codeMessage: any = {
  */
 const errorHandler = (error: { response: any }): Response => {
   const { response } = error;
-  console.log('errorhandler:', error)
   let errortext = codeMessage[response.status] || response.message;
   const { code } = response;
   const token = getToken()
   if (code === 400 && !token) {
     errortext = '用户名或密码错误'
     message.error(errortext);
-  }
-  if (code === 401) {
-    errortext = `登录已过期，请重新登录`
-    message.error(errortext);
-    pageLogin()
   }
   return response
 };
@@ -86,14 +80,13 @@ request.interceptors.request.use((url: string, options: any) => {
 request.interceptors.response.use(async (response: any): Promise<any> => {
   let obj = {}
   await response.clone().json().then((res: any) => {
-    const { status, msg } = res
+    const { status, msg, code } = res
     if (status !== 1) {
       message.error(msg)
+      if(code === 401) {
+        pageLogin()
+      }
       return Promise.reject(msg)
-      // if (code && code === 401) {
-      //   pageLogin()
-      //   window.location.reload()
-      // }
     }
     obj = res
     return Promise.resolve(res)

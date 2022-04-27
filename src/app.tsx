@@ -45,12 +45,12 @@ export const layout = ({
     disableContentMargin: false,
     footerRender: () => <Footer />,
     onPageChange: () => {
-      const { currentUser } = initialState;
-      const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!currentUser && location.pathname !== '/user/login') {
-        history.push('/user/login');
-      }
+      // const { currentUser } = initialState;
+      // const { location } = history;
+      // // 如果没有登录，重定向到 login
+      // if (!currentUser && location.pathname !== '/user/login') {
+      //   history.push('/user/login');
+      // }
     },
     menuHeaderRender: undefined,
     ...initialState?.settings,

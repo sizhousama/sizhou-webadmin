@@ -4,7 +4,7 @@ export const baseUrl = () =>{
     url = 'http://127.0.0.1:7001'
   }
   if(API_ENV === 'prod'){
-    url = 'http://127.0.0.1:7001'
+    url = 'http://back.sizhouweb.cn'
   }
   return url
 }
